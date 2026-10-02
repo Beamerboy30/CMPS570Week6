@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Visitor Pass</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" role="img" aria-label="BAU">BAU</span>
+      <div>
+        <h1>Campus Visitor Pass</h1>
+        <p class="sub">Request, approve and check visitor passes</p>
+      </div>
+    </div>
+    <nav class="roles" role="tablist" aria-label="Choose a role">
+      <button role="tab" data-role="visitor" aria-selected="true">Visitor</button>
+      <button role="tab" data-role="host" aria-selected="false">Host</button>
+      <button role="tab" data-role="guard" aria-selected="false">Guard</button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="role-note" id="roleNote"></p>
+
+    <!-- VISITOR -->
+    <section class="panel" id="panel-visitor">
+      <div class="card">
+        <h2>Request a visitor pass</h2>
+        <form id="requestForm" novalidate>
+          <label for="vName">Full name</label>
+          <input id="vName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="e.g. Amina Bello">
+
+          <label for="vDate">Visit date</label>
+          <input id="vDate" name="date" type="date">
+
+          <label for="vHost">Who are you visiting?</label>
+          <select id="vHost" name="host"><option value="">Choose a host</option></select>
+
+          <button type="submit" class="primary">Submit request</button>
+        </form>
+        <div id="requestMsg" class="msg" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="card">
+        <h2>Check my request</h2>
+        <form id="statusForm" class="inline" novalidate>
+          <input id="statusId" type="text" placeholder="Reference, e.g. REQ-4F2K9A" aria-label="Request reference">
+          <button type="submit">Check</button>
+        </form>
+        <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="card demo">
+        <h2>Security check</h2>
+        <p>Try to approve the most recent pending request while signed in as a <strong>Visitor</strong>. The API should refuse.</p>
+        <button id="tryApprove" class="danger">Try to approve as Visitor</button>
+        <div id="tryMsg" class="msg" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- HOST -->
+    <section class="panel" id="panel-host" hidden>
+      <div class="card">
+        <h2>Pending requests</h2>
+        <div id="pendingList"></div>
+        <div id="hostMsg" class="msg" role="status" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <h2>Audit log</h2>
+        <p class="hint">Every action is recorded, including refused ones. No visitor names are stored here.</p>
+        <div class="table-wrap"><table id="auditTable"><thead><tr><th>Time</th><th>Role</th><th>Action</th><th>Outcome</th><th>Ref</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- GUARD -->
+    <section class="panel" id="panel-guard" hidden>
+      <div class="card">
+        <h2>Check a pass at the gate</h2>
+        <form id="guardForm" class="inline" novalidate>
+          <input id="guardCode" type="text" maxlength="9" placeholder="ABCD-2345" aria-label="Pass code" autocomplete="off">
+          <button type="submit" class="primary">Check pass</button>
+        </form>
+        <div id="guardResult" class="verdict" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Student project for CMPS 570. Not an official Bay Atlantic University service. Data is stored only in this browser.</span>
+    <a href="tests/tests.html">Run tests</a>
+    <button id="resetData" class="link">Reset demo data</button>
+  </footer>
+
+  <script src="js/repository.js"></script>
+  <script src="js/passService.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

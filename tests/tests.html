@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Visitor Pass: Tests</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 0 auto; padding: 20px; color: #1c2333; }
+    h1 { font-size: 22px; } .summary { font-size: 18px; font-weight: 700; margin: 12px 0; }
+    li { padding: 6px 0; border-bottom: 1px solid #eee; list-style: none; }
+    .pass { color: #137a3f; } .fail { color: #b42318; } ul { padding: 0; }
+    p { color: #5b6475; }
+  </style>
+</head>
+<body>
+  <h1>Automated tests</h1>
+  <p>These tests use a fake in-memory data store, a fixed clock and a predictable code generator, so no real visitor data is needed.</p>
+  <div class="summary" id="summary"></div>
+  <ul id="results"></ul>
+  <p><a href="../index.html">Back to the app</a></p>
+  <script src="../js/repository.js"></script>
+  <script src="../js/passService.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="tests.js"></script>
+  <script>
+    CVP.runTests(function (results, passed, total) {
+      var s = document.getElementById("summary");
+      s.textContent = passed + " / " + total + " tests passed";
+      s.className = "summary " + (passed === total ? "pass" : "fail");
+      var ul = document.getElementById("results");
+      results.forEach(function (r) {
+        var li = document.createElement("li");
+        li.className = r.ok ? "pass" : "fail";
+        li.textContent = (r.ok ? "PASS  " : "FAIL  ") + r.name + (r.ok ? "" : "  (" + r.error + ")");
+        ul.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
